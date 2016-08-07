@@ -1,0 +1,23 @@
+{
+	"name": "Gebauer/EmlParser",
+	"type": "library",
+	"description": "parser for email",
+	"license": ["WTFPL"],
+	"authors": [
+		{
+			"name": "Zdenek Gebauer",
+			"email": "zdenek.gebauer@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=5.4",
+		"ext-iconv": "*",
+		"ext-imap": "*"
+	},
+	"autoload": {
+        "psr-4": {
+            "ZdenekGebauer\\MailParser\\": "src/"
+        }
+	},
+	"minimum-stability": "dev"
+}
