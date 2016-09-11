@@ -141,5 +141,27 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals([], $message->getAttachments());
 	}
 
+	public function testEmailFakeSmtp() {
+		$message = (new Parser(file_get_contents($this->dir . 'fakesmtp.eml')))->getMessage();
+		$this->assertEquals('subject', $message->getSubject());
+		$this->assertEquals('Sender', $message->getSender()->getName());
+		$this->assertEquals('sender@example.org', $message->getSender()->getAddress());
+		$recipients = $message->getRecipients();
+		$this->assertEquals(1, count($recipients));
+		$this->assertEquals('Recipient A', $recipients[0]->getName());
+		$this->assertEquals('recipientA@example.org', $recipients[0]->getAddress());
+
+		$this->assertEquals(0, count($message->getCcRecipients()));
+		$this->assertEquals(0, count($message->getBccRecipients()));
+
+		$this->assertContains('lorem ipsum', $message->getBodyText());
+		$this->assertContains('<p>lorem ipsum</p>', $message->getBodyHtml());
+
+		$attachments = $message->getAttachments();
+		$this->assertEquals(1, count($attachments));
+		$this->assertEquals('phpunit.jpg', $attachments[0]->getFile());
+		$this->assertEquals('image/jpeg', $attachments[0]->getContentType());
+		$this->assertEquals('base64', $attachments[0]->getEncoding());
+	}
 
 }

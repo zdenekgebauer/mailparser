@@ -76,7 +76,6 @@ class Parser {
 		$this->parseHeaders($tmp[0]);
 		if (isset($tmp[1])) {
 			$this->rawBody = $tmp[1];
-			//var_dump(htmlspecialchars($this->rawBody));
 			$this->parseBody();
 		}
 	}
@@ -237,7 +236,7 @@ class Parser {
 	 */
 	private function parseBodyPart($part) {
 		list ($header, $content) = explode("\n\n", $part, 2);
-		$header = str_replace("\n ", '', $header);
+		$header = str_replace(["\n\t", "\n "], '', $header);
 		preg_match('/Content-Type: (.*)$/mi', $header, $matches);
 		$contentType = trim($matches[1]);
 
